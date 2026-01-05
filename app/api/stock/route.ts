@@ -37,10 +37,19 @@ export async function POST(request: NextRequest) {
       throw new Error('Invalid Orderbook API response structure');
     }
 
+    // Mencari offer terbesar dan bid terkecil dari orderbook hari ini
+    const offerPrices = (obData.offer || []).map((o: { price: string }) => Number(o.price));
+    const bidPrices = (obData.bid || []).map((b: { price: string }) => Number(b.price));
+    
+    const offerTeratas = offerPrices.length > 0 
+      ? Math.max(...offerPrices) 
+      : Number(obData.high || 0);
+    const bidTerbawah = bidPrices.length > 0 ? Math.min(...bidPrices) : 0;
+
     const marketData = {
       harga: Number(obData.close),
-      offerTeratas: Number(obData.ara?.value || 0),
-      bidTerbawah: Number(obData.arb?.value || 0),
+      offerTeratas,
+      bidTerbawah,
       totalBid: parseLot(obData.total_bid_offer.bid.lot),
       totalOffer: parseLot(obData.total_bid_offer.offer.lot),
     };
