@@ -33,6 +33,14 @@ export default function AgentStoryCard({ stories, status, onRetry }: AgentStoryC
   const data = stories.find(s => s.id === selectedId) || stories[0];
   const buyInText = data?.strategi_trading?.buy_in || data?.strategi_trading?.target_entry || '-';
   const buyOutText = data?.strategi_trading?.buy_out || data?.strategi_trading?.exit_strategy?.take_profit || data?.strategi_trading?.exit_strategy?.stop_loss || '-';
+  const buyInPrice = data?.strategi_trading?.buy_in_price;
+  const buyOutPrice = data?.strategi_trading?.buy_out_price;
+
+  const formatPrice = (value?: number) => {
+    if (!value || Number.isNaN(value)) return '-';
+    return `Rp ${value.toLocaleString('id-ID')}`;
+  };
+
   // Loading state
   if (status === 'pending' || status === 'processing') {
     return (
@@ -358,7 +366,7 @@ export default function AgentStoryCard({ stories, status, onRetry }: AgentStoryC
               <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{data.strategi_trading.target_entry}</span>
             </div>
 
-  {/* Buy In */}
+            {/* Buy In */}
             <div style={{ 
               padding: '0.75rem', 
               background: 'rgba(102, 126, 234, 0.08)', 
@@ -372,6 +380,9 @@ export default function AgentStoryCard({ stories, status, onRetry }: AgentStoryC
               <span style={{ color: 'var(--accent-primary)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Buy In (Lapkeu)</span>
               <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
                 {buyInText}
+              </span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                Angka Buy In: {formatPrice(buyInPrice)}
               </span>
             </div>
 
@@ -389,6 +400,9 @@ export default function AgentStoryCard({ stories, status, onRetry }: AgentStoryC
               <span style={{ color: '#ff6b81', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Buy Out (Lapkeu)</span>
               <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
                 {buyOutText}
+              </span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                Angka Buy Out: {formatPrice(buyOutPrice)}
               </span>
             </div>
 

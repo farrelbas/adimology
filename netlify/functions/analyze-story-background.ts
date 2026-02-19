@@ -101,7 +101,7 @@ FOKUS ANALISA:
 3. Hubungkan berita yang ditemukan dengan logika pasar: mengapa berita ini bagus atau buruk untuk masa depan perusahaan?
 4. Sebutkan tanggal rilis berita yang kamu gunakan sebagai referensi di dalam deskripsi katalis.
 5. Terjemahkan data Key Statistics (pahami data di atas jika tersedia) ke dalam bahasa yang mudah dipahami tapi detail untuk investasi. Berikan kesimpulan apakah data tersebut memberikan signal 'Positif/Sehat', 'Neutral', atau 'Negatif/Hati-hati' untuk investasi jangka pendek dan panjang.
-6. Wajib sertakan rekomendasi Buy In dan Buy Out yang secara eksplisit berbasis pembacaan laporan keuangan (lapkeu): jelaskan trigger fundamental apa yang membuat investor layak masuk (buy in) dan keluar (buy out).
+6. Wajib sertakan rekomendasi Buy In dan Buy Out yang secara eksplisit berbasis pembacaan laporan keuangan (lapkeu): jelaskan trigger fundamental apa yang membuat investor layak masuk (buy in) dan keluar (buy out). Cantumkan level harga/area (angka atau range) yang konkret jika memungkinkan.
 
 Berikan analisis dalam format JSON dengan struktur berikut (PASTIKAN HANYA OUTPUT JSON, tanpa markdown code block agar mudah di-parse):
 {
@@ -128,6 +128,10 @@ Berikan analisis dalam format JSON dengan struktur berikut (PASTIKAN HANYA OUTPU
   "strategi_trading": {
     "tipe_saham": "jenis saham (growth/value/turnaround/dll)",
     "target_entry": "area entry yang disarankan",
+    "buy_in": "sinyal/area buy in berdasarkan pembacaan laporan keuangan terbaru",
+    "buy_out": "sinyal/area buy out berdasarkan pembacaan laporan keuangan terbaru",
+    "buy_in_price": 0,
+    "buy_out_price": 0,
     "exit_strategy": {
       "take_profit": "target take profit",
       "stop_loss": "level stop loss"
