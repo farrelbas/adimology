@@ -356,6 +356,45 @@ export default function AgentStoryCard({ stories, status, onRetry }: AgentStoryC
               <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{data.strategi_trading.target_entry}</span>
             </div>
 
+{/* Buy In */}
+            {data.strategi_trading.buy_in && (
+              <div style={{ 
+                padding: '0.75rem', 
+                background: 'rgba(102, 126, 234, 0.08)', 
+                borderRadius: '8px', 
+                border: '1px solid rgba(102, 126, 234, 0.2)',
+                borderLeft: '4px solid var(--accent-primary)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem'
+              }}>
+                <span style={{ color: 'var(--accent-primary)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Buy In (Lapkeu)</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+                  {data.strategi_trading.buy_in}
+                </span>
+              </div>
+            )}
+
+            {/* Buy Out */}
+            {data.strategi_trading.buy_out && (
+              <div style={{ 
+                padding: '0.75rem', 
+                background: 'rgba(245, 87, 108, 0.04)', 
+                borderRadius: '8px', 
+                border: '1px solid rgba(245, 87, 108, 0.12)',
+                borderLeft: '4px solid #ff6b81',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem'
+              }}>
+                <span style={{ color: '#ff6b81', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Buy Out (Lapkeu)</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
+                  {data.strategi_trading.buy_out}
+                </span>
+              </div>
+            )}
+
+
             {/* Take Profit */}
             <div style={{ 
               padding: '0.75rem', 
