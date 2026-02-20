@@ -84,7 +84,12 @@ Pilih salah satu opsi instalasi yang sesuai dengan kebutuhan Anda:
 
 # OPSI A: Deploy ke Cloud (Netlify + Supabase)
 
-Ikuti langkah-langkah berikut secara berurutan:
+Opsi ini direkomendasikan untuk penggunaan harian karena aplikasi akan berjalan secara otomatis di cloud dan dapat diakses dari mana saja.
+
+> [!TIP]
+> Panduan ini juga tersedia di **[Wiki GitHub](https://github.com/bhaktiutama/adimology/wiki/Deploy-ke-Cloud)** untuk referensi yang lebih rapi.
+
+Ikuti langkah-langkah berikut secara berurutan untuk menjalankan Adimology di cloud menggunakan Netlify dan Supabase:
 
 ## A1. Setup Supabase
 
@@ -99,13 +104,13 @@ Ikuti langkah-langkah berikut secara berurutan:
 > Agar migrasi otomatis dapat berjalan, Anda perlu menyiapkan infrastruktur pelacakan migrasi secara manual:
 > 1. Buka **SQL Editor** di Dashboard Supabase.
 > 2. Klik **New query**.
-> 3. Salin isi file `supabase/000_init.sql` dari repository ini dan tempel di editor.
+> 3. Buka folder **supabase** di repository ini, pilih file **000_init.sql**, lalu salin (copy) seluruh teks yang ada di dalamnya dan tempel (paste) ke editor tadi.
 > 4. Klik **Run**.
 > 5. Setelah berhasil, migrasi database lainnya (`001_...` dst) akan dijalankan otomatis setiap kali build di Netlify.
 
 ## A2. Deploy ke Netlify
 
-1. Fork atau push repository ini ke GitHub Anda
+1. **Fork Repository**: Buka repository Adimology ini di GitHub, lalu klik tombol **Fork** di pojok kanan atas. Ini akan membuat salinan project ini di akun GitHub Anda sendiri agar Anda bisa menghubungkannya ke Netlify.
 2. Login ke [Netlify](https://www.netlify.com/) dan klik **Add new site > Import an existing project**
 3. Pilih repository Adimology dari GitHub
 4. Tambahkan **Environment Variables** di Netlify:
@@ -122,14 +127,13 @@ Ikuti langkah-langkah berikut secara berurutan:
 
 ## A3. Setup Chrome Extension (untuk Cloud)
 
-1. Buka folder `stockbit-token-extension/` di repository
-2. Salin file konfigurasi:
-   ```bash
-   cp stockbit-token-extension/manifest.json.example stockbit-token-extension/manifest.json
-   cp stockbit-token-extension/background.js.example stockbit-token-extension/background.js
-   ```
+1. **Download File ke Komputer**: Jika Anda belum memiliki file ini di komputer, buka repository GitHub Anda, klik tombol **Code** (warna hijau), lalu pilih **Download ZIP**. Ekstrak (Extract) file tersebut ke folder pilihan Anda (misal di Desktop atau Documents).
+2. Buka folder `stockbit-token-extension/` yang ada di dalam folder hasil ekstrak tadi.
+3. Buat duplikat (Copy & Paste) untuk dua file berikut:
+   - Duplikat `manifest.json.example` lalu ubah namanya menjadi `manifest.json`
+   - Duplikat `background.js.example` lalu ubah namanya menjadi `background.js`
 
-3. Edit `manifest.json` - ganti `YOUR_APP_DOMAIN` dengan URL Netlify Anda:
+4. Edit `manifest.json` - ganti `YOUR_APP_DOMAIN` dengan URL Netlify Anda:
    ```json
    "host_permissions": [
       "https://*.stockbit.com/*",
@@ -137,12 +141,12 @@ Ikuti langkah-langkah berikut secara berurutan:
    ]
    ```
 
-4. Edit `background.js` - ganti `APP_API_URL` dengan URL Netlify Anda:
+5. Edit `background.js` - ganti `APP_API_URL` dengan URL Netlify Anda:
    ```javascript
    const APP_API_URL = "https://your-app.netlify.app/api/update-token";
    ```
 
-5. Install ekstensi di Chrome:
+6. Install ekstensi di Chrome:
    - Buka `chrome://extensions/`
    - Aktifkan **Developer mode** (pojok kanan atas)
    - Klik **Load unpacked**

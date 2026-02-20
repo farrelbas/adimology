@@ -1,0 +1,72 @@
+# OPSI A: Deploy ke Cloud (Netlify + Supabase)
+
+Ikuti langkah-langkah berikut secara berurutan untuk menjalankan Adimology di cloud menggunakan Netlify dan Supabase.
+
+## A1. Setup Supabase
+
+1. Buat akun dan project baru di [Supabase](https://supabase.com/)
+2. Catat kredensial berikut dari **Project Settings > Data API**:
+   - `Project URL` → untuk `NEXT_PUBLIC_SUPABASE_URL`
+3. Catat kredensial berikut dari **Project Settings > API Keys > Legacy anon, service_role API keys**:
+   - `anon public` key → untuk `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+
+> **PENTING: Persiapan Database (Wajib Sekali Saja)**
+> Agar migrasi otomatis dapat berjalan, Anda perlu menyiapkan infrastruktur pelacakan migrasi secara manual:
+> 1. Buka **SQL Editor** di Dashboard Supabase.
+> 2. Klik **New query**.
+> 3. Buka folder **supabase** di repository ini, pilih file **000_init.sql**, lalu salin (copy) seluruh teks yang ada di dalamnya dan tempel (paste) ke editor tadi.
+> 4. Klik **Run**.
+> 5. Setelah berhasil, migrasi database lainnya (`001_...` dst) akan dijalankan otomatis setiap kali build di Netlify.
+
+## A2. Deploy ke Netlify
+
+1. **Fork Repository**: Buka repository Adimology ini di GitHub, lalu klik tombol **Fork** di pojok kanan atas. Ini akan membuat salinan project ini di akun GitHub Anda sendiri agar Anda bisa menghubungkannya ke Netlify.
+2. Login ke [Netlify](https://www.netlify.com/) dan klik **Add new site > Import an existing project**
+3. Pilih repository Adimology dari GitHub
+4. Tambahkan **Environment Variables** di Netlify:
+
+   | Variable | Nilai | Wajib |
+   |----------|-------|:-----:|
+   | `NEXT_PUBLIC_SUPABASE_URL` | URL dari Supabase | ✅ |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key dari Supabase | ✅ |
+   | `CRON_SECRET` | String acak untuk keamanan cron | ✅ |
+   | `GEMINI_API_KEY` | API Key dari [Google AI Studio](https://aistudio.google.com/) | ✅ |
+
+5. Klik **Deploy site** dan tunggu hingga selesai
+6. Catat URL Netlify Anda (contoh: `https://your-app.netlify.app`)
+
+## A3. Setup Chrome Extension (untuk Cloud)
+
+1. **Download File ke Komputer**: Jika Anda belum memiliki file ini di komputer, buka repository GitHub Anda, klik tombol **Code** (warna hijau), lalu pilih **Download ZIP**. Ekstrak (Extract) file tersebut ke folder pilihan Anda (misal di Desktop atau Documents).
+2. Buka folder `stockbit-token-extension/` yang ada di dalam folder hasil ekstrak tadi.
+3. Buat duplikat (Copy & Paste) untuk dua file berikut:
+   - Duplikat `manifest.json.example` lalu ubah namanya menjadi `manifest.json`
+   - Duplikat `background.js.example` lalu ubah namanya menjadi `background.js`
+
+4. Edit `manifest.json` - ganti `YOUR_APP_DOMAIN` dengan URL Netlify Anda:
+   ```json
+   "host_permissions": [
+      "https://*.stockbit.com/*",
+      "https://your-app.netlify.app/*"
+   ]
+   ```
+
+5. Edit `background.js` - ganti `APP_API_URL` dengan URL Netlify Anda:
+   ```javascript
+   const APP_API_URL = "https://your-app.netlify.app/api/update-token";
+   ```
+
+6. Install ekstensi di Chrome:
+   - Buka `chrome://extensions/`
+   - Aktifkan **Developer mode** (pojok kanan atas)
+   - Klik **Load unpacked**
+   - Pilih folder `stockbit-token-extension`
+
+## A4. Verifikasi Instalasi
+
+1. Buka [Stockbit](https://stockbit.com/) dan login
+2. Ekstensi akan otomatis menangkap dan mengirim token ke Supabase
+3. Buka URL Netlify Anda
+4. Cek indikator koneksi Stockbit di aplikasi - harus menunjukkan **Connected**
+5. Coba analisis saham pertama Anda! 🎉
