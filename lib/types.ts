@@ -244,10 +244,6 @@ export interface ChecklistKatalis {
 export interface StrategiTrading {
   tipe_saham: string;
   target_entry: string;
-  buy_in?: string;
-  buy_out?: string;
-  buy_in_price?: number;
-  buy_out_price?: number;
   exit_strategy: {
     take_profit: string;
     stop_loss: string;
